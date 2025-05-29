@@ -40,43 +40,53 @@ export default function Hero() {
             </motion.button>
           </motion.div>
 
-          {/* Visual */}
+          {/* Visual - Alternative Abstract Design */}
           <motion.div
             className="flex justify-center lg:justify-end"
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8, delay: 0.5 }}
           >
-            <div className="relative">
-              {/* T-shirt Shape */}
+            <div className="relative w-80 h-96">
+              {/* Main geometric shape */}
               <motion.div
-                className="w-80 h-96 bg-ownership-black t-shirt-shape flex items-center justify-center relative overflow-hidden"
-                animate={{ y: [0, -20, 0] }}
+                className="absolute inset-0 bg-gradient-to-br from-ownership-black to-gray-800 transform rotate-12 rounded-2xl"
+                animate={{ rotate: [12, 15, 12] }}
+                transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+              />
+              
+              {/* Secondary shape */}
+              <motion.div
+                className="absolute top-8 left-8 w-32 h-32 bg-white/10 rounded-full"
+                animate={{ scale: [1, 1.1, 1] }}
                 transition={{ duration: 6, repeat: Infinity, ease: "easeInOut" }}
-              >
-                {/* OWNERSHIP Text on Shirt */}
+              />
+              
+              {/* Text overlay */}
+              <div className="absolute inset-0 flex items-center justify-center z-10">
                 <div className="text-center text-white">
-                  <div className="text-3xl font-bold mb-2 tracking-wider">
+                  <motion.div 
+                    className="text-6xl font-bold mb-2"
+                    animate={{ opacity: [0.8, 1, 0.8] }}
+                    transition={{ duration: 4, repeat: Infinity }}
+                  >
+                    O
+                  </motion.div>
+                  <div className="text-sm tracking-wider">
                     OWNERSHIP
                   </div>
-                  <div className="text-sm italic opacity-90">
-                    : the state, relation, or fact<br />of being an owner
-                  </div>
                 </div>
-                
-                {/* Subtle overlay pattern */}
-                <div className="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-white/10 pointer-events-none" />
-              </motion.div>
+              </div>
               
-              {/* Decorative elements */}
+              {/* Floating elements */}
               <motion.div
-                className="absolute -top-4 -right-4 w-8 h-8 bg-ownership-black rounded-full opacity-20"
-                animate={{ scale: [1, 1.2, 1] }}
+                className="absolute -top-4 -right-4 w-6 h-6 bg-ownership-black rounded-full"
+                animate={{ y: [-10, 10, -10] }}
                 transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
               />
               <motion.div
-                className="absolute -bottom-4 -left-4 w-6 h-6 bg-ownership-black rounded-full opacity-30"
-                animate={{ scale: [1, 1.3, 1] }}
+                className="absolute -bottom-4 -left-4 w-4 h-4 bg-ownership-black rounded-full"
+                animate={{ y: [10, -10, 10] }}
                 transition={{ duration: 5, repeat: Infinity, ease: "easeInOut", delay: 1 }}
               />
             </div>

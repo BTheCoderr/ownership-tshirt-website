@@ -7,17 +7,17 @@ export default function SocialProof() {
   const stats = [
     {
       icon: Users,
-      number: '150+',
+      number: '25+',
       label: 'Happy Customers'
     },
     {
       icon: Package,
-      number: '200+',
+      number: '50+',
       label: 'Orders Shipped'
     },
     {
       icon: Star,
-      number: '4.8',
+      number: '5.0',
       label: 'Average Rating'
     }
   ]

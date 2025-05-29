@@ -40,7 +40,7 @@ export default function Footer() {
               OWNERSHIP
             </motion.h3>
             <p className="text-gray-400 mb-6 leading-relaxed">
-              Define your style. Own your moment. More than just clothing - a mindset.
+              Define your style. Own your shit. More than just clothing - a mindset.
             </p>
             
             {/* Social Links */}
@@ -164,6 +164,40 @@ export default function Footer() {
                 Subscribe
               </button>
             </motion.form>
+          </div>
+
+          {/* Contact Information */}
+          <div className="space-y-4">
+            <div>
+              <h4 className="text-lg font-semibold text-white mb-2">Contact</h4>
+              <p className="text-gray-400">bferrell514@gmail.com</p>
+            </div>
+            <div className="flex space-x-4">
+              <a 
+                href="https://instagram.com/bthedream_" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                Instagram
+              </a>
+              <a 
+                href="https://twitter.com/bthedream_" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                Twitter
+              </a>
+              <a 
+                href="https://tiktok.com/@bthedream_" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-gray-400 hover:text-white transition-colors"
+              >
+                TikTok
+              </a>
+            </div>
           </div>
         </div>
 

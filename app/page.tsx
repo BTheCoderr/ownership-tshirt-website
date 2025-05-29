@@ -76,7 +76,7 @@ export default function Home() {
               a t-shirt – you're making a statement about who you are and what you stand for.
             </p>
             <p className="text-xl font-semibold text-ownership-black">
-              Define your style. Own your moment.
+              Define your style. Own your shit.
             </p>
           </div>
         </div>
@@ -114,7 +114,7 @@ export default function Home() {
                   Email
                 </h3>
                 <p className="text-gray-600">
-                  hello@ownership-brand.com
+                  bferrell514@gmail.com
                 </p>
               </div>
               
@@ -123,11 +123,14 @@ export default function Home() {
                   Social
                 </h3>
                 <div className="flex space-x-4">
-                  <a href="#" className="text-gray-600 hover:text-ownership-black transition-colors">
+                  <a href="https://instagram.com/bthedream_" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-ownership-black transition-colors">
                     Instagram
                   </a>
-                  <a href="#" className="text-gray-600 hover:text-ownership-black transition-colors">
+                  <a href="https://twitter.com/bthedream_" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-ownership-black transition-colors">
                     Twitter
+                  </a>
+                  <a href="https://tiktok.com/@bthedream_" target="_blank" rel="noopener noreferrer" className="text-gray-600 hover:text-ownership-black transition-colors">
+                    TikTok
                   </a>
                 </div>
               </div>
