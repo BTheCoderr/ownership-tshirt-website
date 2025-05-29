@@ -68,7 +68,7 @@ export default function Home() {
           <div className="space-y-6 text-lg text-gray-700 leading-relaxed">
             <p>
               More than just clothing, OWNERSHIP represents a mindset. It's about taking 
-              control of your narrative, defining your style, and owning every moment.
+              control of your narrative, defining your style, and owning that shit.
             </p>
             <p>
               Each piece is crafted with intention, designed to remind you that true 
@@ -76,7 +76,7 @@ export default function Home() {
               a t-shirt – you're making a statement about who you are and what you stand for.
             </p>
             <p className="text-xl font-semibold text-ownership-black">
-              Define your style. Own your shit.
+              Define your style. Own that shit.
             </p>
           </div>
         </div>

@@ -40,7 +40,7 @@ export default function Footer() {
               OWNERSHIP
             </motion.h3>
             <p className="text-gray-400 mb-6 leading-relaxed">
-              Define your style. Own your shit. More than just clothing - a mindset.
+              Define your style. Own that shit. More than just clothing - a mindset.
             </p>
             
             {/* Social Links */}
