@@ -4,6 +4,9 @@ import { useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { ArrowLeft, CreditCard, Lock } from 'lucide-react'
 import { useCartStore } from '@/store/cart'
+import { getStripe, createPaymentIntent } from '@/lib/stripe'
+import { sendOrderNotification } from '@/lib/email'
+import { orderManager } from '@/lib/orders'
 
 interface CheckoutProps {
   isOpen: boolean
@@ -14,6 +17,8 @@ export default function Checkout({ isOpen, onClose }: CheckoutProps) {
   const { items, total, clearCart } = useCartStore()
   const [step, setStep] = useState<'details' | 'payment' | 'success'>('details')
   const [isProcessing, setIsProcessing] = useState(false)
+  const [orderId, setOrderId] = useState<string | null>(null)
+  const [paymentError, setPaymentError] = useState<string | null>(null)
   
   const [formData, setFormData] = useState({
     email: '',
@@ -44,19 +49,65 @@ export default function Checkout({ isOpen, onClose }: CheckoutProps) {
   const handleSubmitPayment = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsProcessing(true)
+    setPaymentError(null)
     
-    // Simulate payment processing
-    await new Promise(resolve => setTimeout(resolve, 3000))
-    
-    setStep('success')
-    setIsProcessing(false)
-    
-    // Clear cart after successful order
-    setTimeout(() => {
-      clearCart()
-      onClose()
-      setStep('details')
-    }, 3000)
+    try {
+      // Create order ID
+      const newOrderId = `ORD-${Date.now()}`
+      setOrderId(newOrderId)
+
+      // For now, simulate successful payment
+      // In production, you'd integrate with Stripe Elements here
+      await new Promise(resolve => setTimeout(resolve, 2000))
+
+      // Create order in our system
+      const order = orderManager.createOrder({
+        orderId: newOrderId,
+        status: 'pending',
+        customer: {
+          firstName: formData.firstName,
+          lastName: formData.lastName,
+          email: formData.email,
+          address: formData.address,
+          city: formData.city,
+          postalCode: formData.postalCode,
+          country: formData.country,
+        },
+        items: items.map(item => ({
+          id: item.id,
+          name: item.name,
+          price: item.price,
+          quantity: item.quantity,
+          color: item.color,
+        })),
+        total: total,
+        paymentIntentId: 'mock_payment_intent', // Replace with real payment intent ID
+      })
+
+      // Send email notifications
+      await sendOrderNotification({
+        orderId: newOrderId,
+        customerName: `${formData.firstName} ${formData.lastName}`,
+        customerEmail: formData.email,
+        items: items,
+        total: total,
+        shippingAddress: `${formData.address}, ${formData.city}, ${formData.postalCode}, ${formData.country}`,
+        timestamp: new Date().toISOString(),
+      })
+
+      setStep('success')
+      
+      // Clear cart after successful order
+      setTimeout(() => {
+        clearCart()
+      }, 3000)
+      
+    } catch (error) {
+      console.error('Payment processing failed:', error)
+      setPaymentError('Payment failed. Please try again.')
+    } finally {
+      setIsProcessing(false)
+    }
   }
 
   const renderDetails = () => (
