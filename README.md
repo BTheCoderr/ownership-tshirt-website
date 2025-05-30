@@ -1,147 +1,201 @@
 # OWNERSHIP T-Shirt Website
 
-A premium e-commerce website for OWNERSHIP brand t-shirts, built with Next.js 14, TypeScript, and Tailwind CSS.
+A premium e-commerce website for OWNERSHIP brand t-shirts built with Next.js 15, TypeScript, and modern web technologies.
 
-![OWNERSHIP Website Preview](public/images/preview.png)
+## 🎯 Features
 
-## 🚀 Features
+### ✅ **E-commerce Functionality**
+- **Product Catalog** - Black and White OWNERSHIP t-shirts with real product photos
+- **Size Selection** - XS, S, M, L, XL, XXL with size guide
+- **Shopping Cart** - Add/remove items with quantity management
+- **Stripe Checkout** - Secure payment processing with Stripe's prebuilt checkout
+- **Order Management** - Complete order tracking and management system
+- **Admin Dashboard** - Order statistics, management, and CSV export
 
-- **Modern E-commerce Experience**
-  - Shopping cart with Zustand state management
-  - Complete checkout process with multi-step flow
-  - Size selection with professional size guide
-  - Product image gallery with front/back views
+### ✅ **Email Integration**
+- **EmailJS Integration** - Contact form and order notifications
+- **Automated Emails** - Order confirmations to customers and business owner
+- **Contact Form** - Direct communication with customers
 
-- **Professional Design**
-  - Responsive design for all devices
-  - Smooth animations with Framer Motion
-  - Custom OWNERSHIP brand styling
-  - Social proof and testimonials section
+### ✅ **Modern UI/UX**
+- **Responsive Design** - Mobile-first approach with Tailwind CSS
+- **Smooth Animations** - Framer Motion for enhanced user experience
+- **Professional Design** - Clean, modern interface
+- **Loading States** - User feedback during operations
+- **Error Handling** - Graceful error boundaries and validation
 
-- **SEO Optimized**
-  - Comprehensive meta tags and structured data
-  - Google Analytics ready
-  - Open Graph for social sharing
-  - Performance optimized
+### ✅ **SEO & Performance**
+- **Next.js 15** - Latest React framework with App Router
+- **TypeScript** - Type-safe development
+- **SEO Optimized** - Meta tags, structured data, sitemap
+- **Fast Loading** - Optimized images and performance
 
-- **User Experience**
-  - Loading states and error handling
-  - Contact forms and customer service info
-  - Newsletter signup and social media integration
-  - Accessible and user-friendly interface
+## 🛠 Tech Stack
 
-## 🛠️ Tech Stack
+- **Framework:** Next.js 15 with App Router
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **Animations:** Framer Motion
+- **State Management:** Zustand
+- **Payment Processing:** Stripe
+- **Email Service:** EmailJS
+- **Deployment:** Netlify
+- **Version Control:** Git/GitHub
 
-- **Framework**: Next.js 14 (App Router)
-- **Language**: TypeScript
-- **Styling**: Tailwind CSS
-- **State Management**: Zustand
-- **Animations**: Framer Motion
-- **Icons**: Lucide React
-- **Deployment**: Netlify
+## 🚀 Getting Started
 
-## 📦 Installation
+### Prerequisites
+- Node.js 18+ 
+- npm or yarn
+- Stripe account
+- EmailJS account
+
+### Installation
 
 1. **Clone the repository**
-   ```bash
-   git clone https://github.com/yourusername/ownership-tshirt-website.git
-   cd ownership-tshirt-website
-   ```
+```bash
+git clone https://github.com/BTheCoderr/ownership-tshirt-website.git
+cd ownership-tshirt-website
+```
 
 2. **Install dependencies**
-   ```bash
-   npm install
-   ```
+```bash
+npm install
+```
 
-3. **Run the development server**
-   ```bash
-   npm run dev
-   ```
+3. **Set up environment variables**
+Create a `.env.local` file in the root directory:
+```env
+# EmailJS Configuration
+NEXT_PUBLIC_EMAILJS_SERVICE_ID=your_service_id
+NEXT_PUBLIC_EMAILJS_TEMPLATE_ID=your_template_id
+NEXT_PUBLIC_EMAILJS_USER_ID=your_user_id
 
-4. **Open your browser**
-   Navigate to [http://localhost:3000](http://localhost:3000)
+# Stripe Configuration
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=pk_test_your_publishable_key
+STRIPE_SECRET_KEY=sk_test_your_secret_key
+```
+
+4. **Run the development server**
+```bash
+npm run dev
+```
+
+5. **Open your browser**
+Navigate to `http://localhost:3000`
+
+## 📧 EmailJS Setup
+
+1. Create an account at [EmailJS](https://www.emailjs.com/)
+2. Set up a Gmail service
+3. Create an email template with variables: `{{from_name}}`, `{{reply_to}}`, `{{subject}}`, `{{message}}`
+4. Get your Service ID, Template ID, and User ID
+5. Update your `.env.local` file
+
+## 💳 Stripe Setup
+
+1. Create an account at [Stripe](https://stripe.com/)
+2. Get your API keys from the dashboard
+3. For testing, use test keys (`pk_test_` and `sk_test_`)
+4. For production, use live keys (`pk_live_` and `sk_live_`)
+5. Update your `.env.local` file
 
 ## 🌐 Deployment
 
 ### Netlify Deployment
 
 1. **Build the project**
-   ```bash
-   npm run build
-   ```
-
-2. **Connect to Netlify**
-   - Push your code to GitHub
-   - Connect your GitHub repository to Netlify
-   - Set build command: `npm run build`
-   - Set publish directory: `out`
-
-### Environment Variables
-
-If you're using Google Analytics, create a `.env.local` file:
-```
-NEXT_PUBLIC_GA_ID=your-google-analytics-id
+```bash
+npm run build
 ```
 
-## 📁 Project Structure
+2. **Deploy to Netlify**
+- Connect your GitHub repository to Netlify
+- Set build command: `npm run build`
+- Set publish directory: `out`
+- Add environment variables in Netlify dashboard
 
-```
-ownership-tshirt-website/
-├── app/                    # Next.js app directory
-│   ├── globals.css        # Global styles
-│   ├── layout.tsx         # Root layout
-│   └── page.tsx           # Home page
-├── components/            # React components
-│   ├── Cart.tsx          # Shopping cart
-│   ├── Checkout.tsx      # Checkout process
-│   ├── ProductCard.tsx   # Product display
-│   ├── SizeGuide.tsx     # Size guide modal
-│   └── SocialProof.tsx   # Customer testimonials
-├── store/                # Zustand store
-│   └── cart.ts          # Cart state management
-├── public/               # Static assets
-│   └── images/          # Product images
-└── tailwind.config.js   # Tailwind configuration
-```
+### Environment Variables for Production
+Make sure to add these in your Netlify dashboard:
+- `NEXT_PUBLIC_EMAILJS_SERVICE_ID`
+- `NEXT_PUBLIC_EMAILJS_TEMPLATE_ID` 
+- `NEXT_PUBLIC_EMAILJS_USER_ID`
+- `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY`
+- `STRIPE_SECRET_KEY`
 
-## 🎨 Customization
+## 📱 Features Walkthrough
 
-### Brand Colors
-The main brand color is defined in `tailwind.config.js`:
-```js
-colors: {
-  'ownership-black': '#1a1a1a',
-}
-```
+### Product Catalog
+- View OWNERSHIP t-shirts in black and white
+- Switch between front and back views
+- Select sizes with size guide reference
+- Add items to shopping cart
 
-### Product Images
-Add your product images to `public/images/`:
-- `black-front.jpg` - Black shirt front view
-- `black-back.jpg` - Black shirt back view
-- `white-front.jpg` - White shirt front view
-- `white-back.jpg` - White shirt back view
+### Shopping Experience
+- Persistent shopping cart with Zustand
+- Secure checkout with Stripe
+- Order confirmations via email
+- Professional success page
 
-### Analytics
-Replace `GA_MEASUREMENT_ID` in `app/layout.tsx` with your Google Analytics ID.
+### Admin Dashboard
+- View order statistics and revenue
+- Manage orders and update status
+- Export orders to CSV
+- Track customer information
 
-## 🛒 E-commerce Features
+### Contact & Support
+- Contact form with EmailJS integration
+- Automated email responses
+- Business contact information
+- Social media links
 
-- **Product Catalog**: Displays black and white t-shirt variants
-- **Size Selection**: XS through XXL with detailed size guide
-- **Shopping Cart**: Add/remove items with quantity management
-- **Checkout Process**: Multi-step checkout with shipping and payment forms
-- **Order Confirmation**: Complete order summary and confirmation
+## 🎨 Brand Identity
 
-## 📧 Contact & Support
+**OWNERSHIP** represents the mindset of taking control and owning your decisions. The brand features:
 
-For questions about this website or the OWNERSHIP brand:
-- Email: hello@ownership-brand.com
-- Website: [ownership-brand.com](https://ownership-brand.com)
+- **Logo:** Bold "OWNERSHIP" typography
+- **Tagline:** "Own that shit"
+- **Colors:** Primarily black and white for timeless appeal
+- **Message:** Empowerment and personal responsibility
+
+## 🛡 Security & Privacy
+
+- **Secure Payments:** All transactions processed through Stripe
+- **Data Protection:** Customer information encrypted and secure
+- **SSL/HTTPS:** Secure communication protocols
+- **Environment Variables:** Sensitive keys stored securely
+
+## 📊 Analytics & Tracking
+
+- Order management system with statistics
+- Revenue tracking and reporting
+- Customer analytics
+- Performance monitoring
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## 📞 Support
+
+For support or inquiries:
+- **Email:** bferrell514@gmail.com
+- **Instagram:** [@bthedream_](https://instagram.com/bthedream_)
+- **Twitter:** [@bthedream_](https://twitter.com/bthedream_)
+- **TikTok:** [@bthedream_](https://tiktok.com/@bthedream_)
 
 ## 📄 License
 
-This project is proprietary software for OWNERSHIP brand.
+This project is proprietary and owned by OWNERSHIP brand.
+
+## 🎉 Acknowledgments
+
+Built with modern web technologies and best practices for optimal performance and user experience.
 
 ---
 
-**Built with ❤️ for the OWNERSHIP mindset** 
+**Own that shit.** 💪 

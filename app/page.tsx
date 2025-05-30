@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import Header from '@/components/Header'
 import Hero from '@/components/Hero'
 import ProductCard from '@/components/ProductCard'
@@ -7,6 +8,7 @@ import Cart from '@/components/Cart'
 import Footer from '@/components/Footer'
 import SocialProof from '@/components/SocialProof'
 import { motion } from 'framer-motion'
+import { sendContactEmail } from '@/lib/email'
 
 const products = [
   {
@@ -24,6 +26,43 @@ const products = [
 ]
 
 export default function Home() {
+  const [contactForm, setContactForm] = useState({
+    name: '',
+    email: '',
+    message: ''
+  })
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState('')
+
+  const handleContactChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setContactForm({
+      ...contactForm,
+      [e.target.name]: e.target.value
+    })
+  }
+
+  const handleContactSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+    setIsSubmitting(true)
+    setSubmitMessage('')
+
+    try {
+      const result = await sendContactEmail(contactForm.name, contactForm.email, contactForm.message)
+      
+      if (result.success) {
+        setSubmitMessage('Thanks for reaching out! We\'ll get back to you soon.')
+        setContactForm({ name: '', email: '', message: '' })
+      } else {
+        setSubmitMessage('Sorry, there was an error sending your message. Please try again.')
+      }
+    } catch (error) {
+      console.error('Contact form error:', error)
+      setSubmitMessage('Sorry, there was an error sending your message. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
+  }
+
   return (
     <main className="min-h-screen">
       <Header />
@@ -137,7 +176,7 @@ export default function Home() {
             </div>
             
             {/* Contact Form */}
-            <form className="space-y-6">
+            <form className="space-y-6" onSubmit={handleContactSubmit}>
               <div>
                 <label htmlFor="name" className="block text-sm font-medium text-ownership-black mb-2">
                   Name
@@ -146,6 +185,8 @@ export default function Home() {
                   type="text"
                   id="name"
                   name="name"
+                  value={contactForm.name}
+                  onChange={handleContactChange}
                   className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-ownership-black focus:border-transparent outline-none transition-all duration-200"
                   placeholder="Your name"
                 />
@@ -159,6 +200,8 @@ export default function Home() {
                   type="email"
                   id="email"
                   name="email"
+                  value={contactForm.email}
+                  onChange={handleContactChange}
                   className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-ownership-black focus:border-transparent outline-none transition-all duration-200"
                   placeholder="your@email.com"
                 />
@@ -172,6 +215,8 @@ export default function Home() {
                   id="message"
                   name="message"
                   rows={4}
+                  value={contactForm.message}
+                  onChange={handleContactChange}
                   className="w-full px-4 py-3 border border-gray-300 focus:ring-2 focus:ring-ownership-black focus:border-transparent outline-none transition-all duration-200 resize-none"
                   placeholder="Your message..."
                 />
@@ -179,10 +224,21 @@ export default function Home() {
               
               <button
                 type="submit"
+                disabled={isSubmitting}
                 className="w-full bg-ownership-black text-white py-3 px-6 font-semibold hover:bg-gray-800 transition-colors duration-200"
               >
-                Send Message
+                {isSubmitting ? 'Sending...' : 'Send Message'}
               </button>
+              
+              {submitMessage && (
+                <div className={`text-center p-4 rounded ${
+                  submitMessage.includes('Thanks') 
+                    ? 'bg-green-100 text-green-700' 
+                    : 'bg-red-100 text-red-700'
+                }`}>
+                  {submitMessage}
+                </div>
+              )}
             </form>
           </div>
         </div>

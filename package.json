@@ -1,6 +1,7 @@
 {
   "name": "ownership-tshirt-website",
   "version": "0.1.0",
+  "description": "Premium e-commerce website for OWNERSHIP brand t-shirts with Stripe payments, EmailJS integration, and modern Next.js 15 architecture.",
   "private": true,
   "scripts": {
     "dev": "next dev",

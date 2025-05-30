@@ -1,9 +1,9 @@
 import emailjs from 'emailjs-com'
 
-// EmailJS configuration
-const SERVICE_ID = 'service_ownership' // You'll get this from EmailJS
-const TEMPLATE_ID = 'template_order' // You'll get this from EmailJS  
-const USER_ID = 'your_user_id' // You'll get this from EmailJS
+// EmailJS configuration - Use environment variables for security
+const SERVICE_ID = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || 'service_fcb4hs4'
+const TEMPLATE_ID = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || 'template_irsmogl'
+const USER_ID = process.env.NEXT_PUBLIC_EMAILJS_USER_ID || 'cBkM5RSjmNp8xBVpE'
 
 interface OrderData {
   orderId: string
@@ -88,26 +88,38 @@ Questions? Reply to this email or contact us at bferrell514@gmail.com
 
 export const sendContactEmail = async (name: string, email: string, message: string) => {
   try {
+    console.log('=== EmailJS Debug Info ===')
+    console.log('SERVICE_ID:', SERVICE_ID)
+    console.log('TEMPLATE_ID:', TEMPLATE_ID)
+    console.log('USER_ID:', USER_ID)
+    console.log('Sending contact email with:', { name, email, message })
+    
     const contactParams = {
       to_email: 'bferrell514@gmail.com',
       from_name: name,
-      from_email: email,
-      subject: 'New Contact Form Message',
-      message: `
-New contact form submission:
-
-Name: ${name}
-Email: ${email}
-Message: ${message}
-
-Sent from: OWNERSHIP website contact form
-      `,
+      reply_to: email,
+      subject: `Contact from ${name}`,
+      message: message,
     }
 
-    await emailjs.send(SERVICE_ID, TEMPLATE_ID, contactParams, USER_ID)
+    console.log('EmailJS params:', contactParams)
+
+    const result = await emailjs.send(SERVICE_ID, TEMPLATE_ID, contactParams, USER_ID)
+    console.log('✅ EmailJS SUCCESS:', result)
+    
     return { success: true }
   } catch (error) {
-    console.error('Failed to send contact email:', error)
+    console.error('❌ Failed to send contact email:', error)
+    console.error('Error details:', JSON.stringify(error, null, 2))
+    
+    // If template not found, suggest creating a new one
+    if (error && typeof error === 'object' && 'text' in error) {
+      const errorWithText = error as { text: string }
+      if (errorWithText.text && errorWithText.text.includes('template ID not found')) {
+        console.error('🔧 SOLUTION: Create a new template in EmailJS dashboard with simple text content')
+      }
+    }
+    
     return { success: false, error }
   }
 } 

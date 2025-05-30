@@ -119,7 +119,14 @@ export default function ProductCard({ id, name, price, color }: ProductCardProps
                 src={imagePath}
                 alt={`${name} - ${currentView} view`}
                 fill
-                className="object-cover"
+                className={`object-cover ${
+                  currentView === 'back' 
+                    ? 'object-center' 
+                    : 'object-center'
+                }`}
+                style={{
+                  objectPosition: currentView === 'back' ? 'center 20%' : 'center 80%'
+                }}
                 onError={() => setImageError(true)}
                 onLoad={() => setImageError(false)}
               />

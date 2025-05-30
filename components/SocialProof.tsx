@@ -12,7 +12,7 @@ export default function SocialProof() {
     },
     {
       icon: Package,
-      number: '50+',
+      number: '25+',
       label: 'Orders Shipped'
     },
     {
