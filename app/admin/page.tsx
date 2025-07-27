@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Package, DollarSign, Users, TrendingUp, Search, Download } from 'lucide-react'
-import { orderManager, Order } from '@/lib/orders'
+import { Order } from '@/lib/orders'
 
 export default function AdminDashboard() {
   const [orders, setOrders] = useState<Order[]>([])
@@ -32,11 +32,49 @@ export default function AdminDashboard() {
     filterOrders()
   }, [orders, searchTerm, statusFilter])
 
-  const loadData = () => {
-    const allOrders = orderManager.getAllOrders()
-    const orderStats = orderManager.getOrderStats()
-    setOrders(allOrders)
-    setStats(orderStats)
+  const loadData = async () => {
+    try {
+      const response = await fetch('/api/orders')
+      const data = await response.json()
+      
+      if (data.orders) {
+        setOrders(data.orders)
+        
+        // Calculate stats
+        const total = data.orders.length
+        const now = new Date()
+        const thisMonth = data.orders.filter((order: Order) => {
+          const orderDate = new Date(order.createdAt)
+          return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear()
+        }).length
+        
+        const totalRevenue = data.orders.reduce((sum: number, order: Order) => sum + order.total, 0)
+        const monthlyRevenue = data.orders
+          .filter((order: Order) => {
+            const orderDate = new Date(order.createdAt)
+            return orderDate.getMonth() === now.getMonth() && orderDate.getFullYear() === now.getFullYear()
+          })
+          .reduce((sum: number, order: Order) => sum + order.total, 0)
+        
+        const byStatus = {
+          pending: data.orders.filter((order: Order) => order.status === 'pending').length,
+          processing: data.orders.filter((order: Order) => order.status === 'processing').length,
+          shipped: data.orders.filter((order: Order) => order.status === 'shipped').length,
+          delivered: data.orders.filter((order: Order) => order.status === 'delivered').length,
+          cancelled: data.orders.filter((order: Order) => order.status === 'cancelled').length,
+        }
+        
+        setStats({
+          total,
+          thisMonth,
+          totalRevenue,
+          monthlyRevenue,
+          byStatus
+        })
+      }
+    } catch (error) {
+      console.error('Error loading orders:', error)
+    }
   }
 
   const filterOrders = () => {
@@ -58,13 +96,32 @@ export default function AdminDashboard() {
   }
 
   const updateOrderStatus = (orderId: string, newStatus: Order['status']) => {
-    orderManager.updateOrder(orderId, { status: newStatus })
-    loadData()
+    // For now, just update the local state
+    // In a real app, you'd make an API call to update the order
+    setOrders(prevOrders => 
+      prevOrders.map(order => 
+        order.orderId === orderId ? { ...order, status: newStatus } : order
+      )
+    )
   }
 
   const exportOrders = () => {
-    const csv = orderManager.exportToCSV()
-    const blob = new Blob([csv], { type: 'text/csv' })
+    // Create CSV from current orders
+    const headers = ['Order ID', 'Customer Name', 'Email', 'Items', 'Total', 'Status', 'Date']
+    const csvContent = [
+      headers.join(','),
+      ...orders.map(order => [
+        order.orderId,
+        `${order.customer.firstName} ${order.customer.lastName}`,
+        order.customer.email,
+        order.items.map(item => `${item.name} x${item.quantity}`).join('; '),
+        order.total.toFixed(2),
+        order.status,
+        new Date(order.createdAt).toLocaleDateString()
+      ].join(','))
+    ].join('\n')
+    
+    const blob = new Blob([csvContent], { type: 'text/csv' })
     const url = window.URL.createObjectURL(blob)
     const a = document.createElement('a')
     a.href = url
@@ -240,11 +297,16 @@ export default function AdminDashboard() {
                         onClick={() => {
                           const trackingNumber = prompt('Enter tracking number:')
                           if (trackingNumber) {
-                            orderManager.updateOrder(order.orderId, { 
-                              trackingNumber,
-                              status: 'shipped'
-                            })
-                            loadData()
+                            // Update local state for now
+                            setOrders(prevOrders => 
+                              prevOrders.map(o => 
+                                o.orderId === order.orderId ? { 
+                                  ...o, 
+                                  trackingNumber,
+                                  status: 'shipped'
+                                } : o
+                              )
+                            )
                           }
                         }}
                         className="text-ownership-black hover:text-gray-700 text-sm font-medium"

@@ -18,7 +18,7 @@ const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL']
 
 export default function ProductCard({ id, name, price, color }: ProductCardProps) {
   const [currentView, setCurrentView] = useState<'front' | 'back'>('front')
-  const [selectedSize, setSelectedSize] = useState<string>('M')
+  const [selectedSize, setSelectedSize] = useState<'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL'>('M')
   const [isLoading, setIsLoading] = useState(false)
   const [imageError, setImageError] = useState(false)
   const [showSizeGuide, setShowSizeGuide] = useState(false)
@@ -34,7 +34,8 @@ export default function ProductCard({ id, name, price, color }: ProductCardProps
       id: `${id}-${selectedSize}`,
       name: `${name} - ${selectedSize}`,
       price,
-      color
+      color,
+      size: selectedSize
     })
     
     // Open cart briefly to show item was added
@@ -187,7 +188,7 @@ export default function ProductCard({ id, name, price, color }: ProductCardProps
             {sizes.map((size) => (
               <button
                 key={size}
-                onClick={() => setSelectedSize(size)}
+                onClick={() => setSelectedSize(size as 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL')}
                 className={`py-2 px-3 text-sm font-medium transition-all duration-200 ${
                   selectedSize === size
                     ? 'bg-ownership-black text-white'

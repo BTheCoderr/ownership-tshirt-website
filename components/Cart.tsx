@@ -121,33 +121,9 @@ export default function Cart() {
                     </span>
                   </div>
                   <motion.button
-                    onClick={async () => {
+                    onClick={() => {
                       if (items.length === 0) return
-                      
-                      try {
-                        const response = await fetch('/api/create-checkout-session', {
-                          method: 'POST',
-                          headers: {
-                            'Content-Type': 'application/json',
-                          },
-                          body: JSON.stringify({
-                            items: items.map(item => ({
-                              name: item.name,
-                              price: item.price,
-                              quantity: item.quantity,
-                              color: item.color,
-                            })),
-                            customerEmail: '', // You can collect this or leave empty for Stripe to collect
-                          }),
-                        })
-                        
-                        const { url } = await response.json()
-                        if (url) {
-                          window.location.href = url
-                        }
-                      } catch (error) {
-                        console.error('Error creating checkout session:', error)
-                      }
+                      handleCheckout()
                     }}
                     disabled={items.length === 0}
                     className="w-full bg-ownership-black text-white py-4 px-6 font-semibold hover:bg-gray-800 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"

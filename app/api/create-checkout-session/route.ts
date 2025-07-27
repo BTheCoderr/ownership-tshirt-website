@@ -35,6 +35,9 @@ export async function POST(req: NextRequest) {
       },
       metadata: {
         order_source: 'ownership_website',
+        customer_email: customerEmail || '',
+        items_count: items.length.toString(),
+        total_amount: amount.toString(),
       },
     }
 

@@ -13,11 +13,10 @@ function SuccessPageContent() {
 
   useEffect(() => {
     if (sessionId) {
-      // In a real app, you'd fetch order details from your backend
-      // For now, we'll show a generic success message
+      // Set order details from session ID
       setOrderDetails({
         id: sessionId,
-        email: 'customer@example.com' // This would come from your API
+        email: 'Check your email for confirmation'
       })
     }
   }, [sessionId])

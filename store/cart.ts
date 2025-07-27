@@ -6,6 +6,7 @@ export interface CartItem {
   price: number
   quantity: number
   color: 'black' | 'white'
+  size: 'XS' | 'S' | 'M' | 'L' | 'XL' | 'XXL'
 }
 
 interface CartStore {

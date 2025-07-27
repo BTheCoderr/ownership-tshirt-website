@@ -27,7 +27,7 @@ export interface PaymentData {
 
 export const createPaymentIntent = async (paymentData: PaymentData) => {
   try {
-    const response = await fetch('/api/create-payment-intent', {
+    const response = await fetch('/api/create-checkout-session', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
